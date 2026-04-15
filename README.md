@@ -124,4 +124,4 @@ python3 skill/artifact-deck/scripts/render_artifact_deck_summary.py \
 
 ## License
 
-MIT
+MIT No Attribution (MIT-0)

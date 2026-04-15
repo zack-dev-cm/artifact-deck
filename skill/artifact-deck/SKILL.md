@@ -2,7 +2,7 @@
 name: artifact-deck
 description: Public OpenClaw skill for generating reproducible PPTX decks from project notes, status bullets, and screenshots. Use when the user wants a stakeholder-ready deck from repo notes, release summaries, audit outputs, or screenshot evidence, and the deliverable should be a rebuildable `.pptx` rather than a freeform narrative.
 homepage: https://github.com/zack-dev-cm/artifact-deck
-license: MIT
+license: MIT-0
 user-invocable: true
 metadata: {"openclaw":{"homepage":"https://github.com/zack-dev-cm/artifact-deck","skillKey":"artifact-deck","requires":{"anyBins":["python3","python"]}}}
 ---
