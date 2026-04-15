@@ -1,0 +1,4 @@
+interface:
+  display_name: "Artifact Deck"
+  short_description: "Generate reproducible PPTX decks from project notes, status bullets, and screenshots"
+  default_prompt: "Use $artifact-deck to turn project notes, bullet lists, and screenshots into a stakeholder-ready PPTX deck, validate the inputs, build the deck locally, and render a concise markdown summary with the rebuild command."
