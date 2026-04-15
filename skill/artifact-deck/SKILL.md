@@ -15,7 +15,7 @@ Turn curated project notes and screenshots into a clean, reproducible `.pptx` de
 - one manifest that defines the deck title, subtitle, status slides, and optional appendix images
 - one input check before build
 - one local PPTX build
-- one markdown summary with the exact rebuild command and slide list
+- one share-safe markdown summary with a rebuild command template and slide list
 
 This skill is for deterministic stakeholder packaging, not autonomous research or design generation.
 It requires Python 3.9+ and `python-pptx`.
@@ -30,6 +30,7 @@ It requires Python 3.9+ and `python-pptx`.
 ## Quick Start
 
 1. Initialize the manifest.
+   - Install the dependency once in the environment: `python3 -m pip install python-pptx`.
    - Use `python3 {baseDir}/scripts/init_artifact_deck_manifest.py --title <title> --subtitle <subtitle> --section "What Changed=/abs/path/changes.md" --out <manifest.json>`.
    - Repeat `--section` for more markdown-backed status slides.
    - Optional: repeat `--slide "Risks=Pending scan|Need approval"` for direct bullet slides.
@@ -45,7 +46,7 @@ It requires Python 3.9+ and `python-pptx`.
 
 4. Render the summary.
    - Use `python3 {baseDir}/scripts/render_artifact_deck_summary.py --manifest <manifest.json> --check <check.json> --build <build.json> --out <summary.md>`.
-   - Share the deck path and summary together so the rebuild command is preserved.
+   - Share the deck and the summary together; the summary omits absolute local paths and keeps only a rebuild command template.
 
 ## Operating Rules
 
@@ -70,4 +71,4 @@ It requires Python 3.9+ and `python-pptx`.
 - `scripts/build_artifact_deck.py`
   - Generate the `.pptx` and a machine-readable build summary.
 - `scripts/render_artifact_deck_summary.py`
-  - Render a concise markdown summary with deck path, slide count, and rebuild command.
+  - Render a concise markdown summary with the deck filename, slide count, and a rebuild command template.

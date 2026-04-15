@@ -27,18 +27,24 @@ def main() -> int:
     build = load_json(build_path)
 
     deck_path = str(build.get("deck_path") or "")
+    deck_label = Path(deck_path).name if deck_path else "deck.pptx"
     lines = [
         "# Artifact Deck Summary",
         "",
         f"- Validation: **{check.get('status', 'unknown')}**",
-        f"- Deck file: **{deck_path}**",
+        f"- Deck file: **{deck_label}**",
         f"- Slide count: **{build.get('slide_count', 0)}**",
         f"- Image appendix slides: **{build.get('image_slide_count', 0)}**",
         "",
         "## Rebuild",
         "",
+        "Run from the `artifact-deck` repo root:",
+        "",
         "```bash",
-        f"python3 skill/artifact-deck/scripts/build_artifact_deck.py --manifest {manifest_path} --deck-out {deck_path} --out {build_path}",
+        "python3 skill/artifact-deck/scripts/build_artifact_deck.py \\",
+        "  --manifest <manifest.json> \\",
+        f"  --deck-out {deck_label} \\",
+        "  --out <build.json>",
         "```",
         "",
         "## Slides",

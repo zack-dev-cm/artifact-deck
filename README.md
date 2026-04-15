@@ -15,9 +15,20 @@ Requires Python 3.9+ and `python-pptx`.
 # Artifact Deck Summary
 
 - Validation: **ok**
-- Deck file: **/tmp/artifact-deck-demo/status-review.pptx**
+- Deck file: **status-review.pptx**
 - Slide count: **4**
 - Image appendix slides: **1**
+
+## Rebuild
+
+Run from the `artifact-deck` repo root:
+
+```bash
+python3 skill/artifact-deck/scripts/build_artifact_deck.py \
+  --manifest <manifest.json> \
+  --deck-out status-review.pptx \
+  --out <build.json>
+```
 
 ## Slides
 - Artifact Deck Demo
@@ -29,6 +40,10 @@ Requires Python 3.9+ and `python-pptx`.
 ## Quick Start
 
 ```bash
+git clone https://github.com/zack-dev-cm/artifact-deck.git
+cd artifact-deck
+python3 -m pip install -r requirements.txt
+
 mkdir -p /tmp/artifact-deck-demo
 
 cat > /tmp/artifact-deck-demo/changes.md <<'EOF'
@@ -42,11 +57,22 @@ cat > /tmp/artifact-deck-demo/risks.md <<'EOF'
 - Need stakeholder approval before promoting the launch post.
 EOF
 
+python3 - <<'PY'
+import base64
+from pathlib import Path
+
+png_bytes = base64.b64decode(
+    "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAusB9Wl9WJ4AAAAASUVORK5CYII="
+)
+Path("/tmp/artifact-deck-demo/browser-proof.png").write_bytes(png_bytes)
+PY
+
 python3 skill/artifact-deck/scripts/init_artifact_deck_manifest.py \
   --title "Artifact Deck Demo" \
   --subtitle "Launch review" \
   --section "What Changed=/tmp/artifact-deck-demo/changes.md" \
   --section "Risks And Asks=/tmp/artifact-deck-demo/risks.md" \
+  --image "Browser Proof=/tmp/artifact-deck-demo/browser-proof.png|Upload confirmation after publish" \
   --out /tmp/artifact-deck-demo/manifest.json
 
 python3 skill/artifact-deck/scripts/check_artifact_deck_inputs.py \
@@ -71,7 +97,7 @@ python3 skill/artifact-deck/scripts/render_artifact_deck_summary.py \
 - one default stakeholder deck shape: title, status slides, risks, asks, appendix
 - screenshot and diagram appendix slides with captions
 - input validation for slide content and image paths before deck generation
-- a markdown summary with slide titles and rebuild command
+- a share-safe markdown summary with slide titles and a rebuild command template
 
 ## Included
 

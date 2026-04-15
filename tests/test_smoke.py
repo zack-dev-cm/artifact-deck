@@ -8,7 +8,10 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from pptx import Presentation
+try:
+    from pptx import Presentation
+except ImportError:  # pragma: no cover - exercised in minimal environments
+    Presentation = None
 
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -20,6 +23,9 @@ ONE_BY_ONE_PNG = (
 
 class ArtifactDeckSmokeTest(unittest.TestCase):
     def test_end_to_end_build(self) -> None:
+        if Presentation is None:
+            self.skipTest("python-pptx is required for Artifact Deck smoke tests")
+
         with tempfile.TemporaryDirectory() as tmp:
             tmp_path = Path(tmp)
             (tmp_path / "changes.md").write_text(
@@ -88,8 +94,11 @@ class ArtifactDeckSmokeTest(unittest.TestCase):
             self.assertEqual(build["image_slide_count"], 1)
             self.assertEqual(len(deck.slides), 4)
             self.assertIn("Artifact Deck Summary", summary)
+            self.assertIn("deck.pptx", summary)
             self.assertIn("What Changed", summary)
             self.assertIn("Browser Proof", summary)
+            self.assertIn("Run from the `artifact-deck` repo root:", summary)
+            self.assertNotIn(str(tmp_path), summary)
 
     def test_missing_input_fails_validation(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
